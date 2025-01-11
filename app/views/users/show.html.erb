@@ -1,0 +1,40 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="profile-picture">
+      <%= image_tag @user.profile_picture_url, alt: @user.name, class: 'profile-pic' if @user.profile_picture_url.present? %>
+    </div>
+    <h1><%= @user.name %></h1>
+    <p>@<%= @user.username %></p>
+  </div>
+  <div class="bio">
+    <p><%= @user.bio %></p>
+  </div>
+  <div class="stats">
+    <div>
+      <h3><%= @user.posts.count %></h3>
+      <p>Posts</p>
+    </div>
+    <div>
+      <h3><%= @user.followers.count %></h3>
+      <p>Followers</p>
+    </div>
+    <div>
+      <h3><%= @user.following.count %></h3>
+      <p>Following</p>
+    </div>
+  </div>
+  <div class="action">
+    <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-primary' %>
+  </div>
+  <div class="posts">
+    <h2>Posts</h2>
+    <div class="posts-grid">
+      <% @user.posts.each do |post| %>
+        <div class="post">
+          <%= image_tag post.image_url, alt: post.caption if post.image_url.present? %>
+          <p><%= post.caption %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
