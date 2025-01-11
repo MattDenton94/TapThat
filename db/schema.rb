@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_11_105626) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_11_124646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +18,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_105626) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.index ["post_id"], name: "index_comments_on_post_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "follows", force: :cascade do |t|
@@ -38,6 +42,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_105626) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "shares", force: :cascade do |t|
@@ -53,11 +59,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_105626) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "post_id", null: false
-    t.bigint "comment_id", null: false
-    t.bigint "follow_id", null: false
-    t.bigint "like_id", null: false
-    t.bigint "share_id", null: false
+    t.bigint "post_id"
+    t.bigint "comment_id"
+    t.bigint "follow_id"
+    t.bigint "like_id"
+    t.bigint "share_id"
     t.string "username"
     t.index ["comment_id"], name: "index_users_on_comment_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -68,8 +74,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_105626) do
     t.index ["share_id"], name: "index_users_on_share_id"
   end
 
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
   add_foreign_key "follows", "users", column: "followed_id"
   add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "posts", "users"
   add_foreign_key "users", "comments"
   add_foreign_key "users", "follows"
   add_foreign_key "users", "likes"
