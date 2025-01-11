@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_11_134342) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_11_151431) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -73,6 +73,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_134342) do
     t.bigint "like_id"
     t.bigint "share_id"
     t.string "username"
+    t.string "first_name"
+    t.string "last_name"
+    t.text "bio"
     t.index ["comment_id"], name: "index_users_on_comment_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["follow_id"], name: "index_users_on_follow_id"
