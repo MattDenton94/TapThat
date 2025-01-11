@@ -1,0 +1,54 @@
+<h1 class="feed-header">Feed</h1>
+
+<div class="posts-container">
+  <% @posts.each do |post| %>
+    <div class="post">
+      <div class="post-header">
+        <%= image_tag post.user.profile_picture || "default_profile_pic.jpg", class: "profile-pic" %>
+        <div class="post-user-info">
+          <strong><%= post.user.username %></strong>
+          <p><%= time_ago_in_words(post.created_at) %> ago</p>
+        </div>
+      </div>
+
+      <div class="post-content">
+        <p><%= post.content %></p>
+      </div>
+
+      <div class="post-actions">
+        <div class="likes">
+          <%= link_to "Like", like_post_path(post), method: :post, class: "like-button" %>
+          <span><%= post.likes.count %> likes</span>
+        </div>
+        <div class="comments">
+          <%= link_to "Comment", post_path(post), class: "comment-button" %>
+        </div>
+        <div class="shares">
+          <%= link_to "Share", post_path(post), class: "share-button" %>
+        </div>
+      </div>
+
+      <div class="comments-section">
+        <h3>Comments</h3>
+        <% @comments = post.comments.limit(3) %>
+        <div class="comments-list">
+          <% @comments.each do |comment| %>
+            <div class="comment">
+              <strong><%= comment.user.username %>:</strong>
+              <span><%= comment.content %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <%= link_to "View all comments (#{post.comments.count})", post_path(post), class: "view-comments" %>
+
+        <%= form_with model: [post, Comment.new], local: true do |form| %>
+          <div class="comment-input">
+            <%= form.text_area :content, placeholder: "Add a comment...", class: "comment-text-area", required: true %>
+            <%= form.submit "Post", class: "comment-submit-button" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

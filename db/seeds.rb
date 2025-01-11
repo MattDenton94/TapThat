@@ -8,46 +8,60 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 puts "Cleaning database..."
-Follow.destroy_all
-Share.destroy_all
+# db/seeds.rb
+
+# Clear existing data
+User.destroy_all
+Post.destroy_all
 Like.destroy_all
 Comment.destroy_all
+Follow.destroy_all
+Share.destroy_all
 UserInterest.destroy_all
-Post.destroy_all
-Interest.destroy_all
-User.destroy_all
-# Create some users with unique emails and passwords
-user1 = User.create!(username: 'john_doe', first_name: 'John', last_name: 'Doe', bio: 'Lover of tech and photography.', email: 'john@example.com', password: 'password123')
-user2 = User.create!(username: 'jane_smith', first_name: 'Jane', last_name: 'Smith', bio: 'Adventurer and traveler.', email: 'jane@example.com', password: 'password123')
 
-# Create some interests with unique titles
-interest1 = Interest.create!(title: 'Photography')
-interest2 = Interest.create!(title: 'Traveling')
-interest3 = Interest.create!(title: 'Coding')
+# Create users
+users = User.create!([
+  { username: "johndoe", first_name: "John", last_name: "Doe", bio: "Lover of technology and photography." },
+  { username: "janedoe", first_name: "Jane", last_name: "Doe", bio: "Avid traveler and food blogger." },
+  { username: "admin", first_name: "Admin", last_name: "User", bio: "Here to manage things." }
+])
 
-# Create user interests (associating users with interests)
-UserInterest.create!(user_id: user1.id, interest_id: interest1.id)
-UserInterest.create!(user_id: user1.id, interest_id: interest2.id)
-UserInterest.create!(user_id: user2.id, interest_id: interest3.id)
-
-# Create some posts
-post1 = Post.create!(user: user1, content: 'Just took some amazing photos of the sunset!')
-post2 = Post.create!(user: user2, content: 'Exploring the world one city at a time.')
+# Create posts
+posts = Post.create!([
+  { user: users[0], content: "My first post!" },
+  { user: users[1], content: "Enjoying a sunny day at the beach." },
+  { user: users[0], content: "Check out my latest photo series." }
+])
 
 # Create likes
-Like.create!(user: user1, post: post2)
-Like.create!(user: user2, post: post1)
+likes = Like.create!([
+  { user: users[1], post: posts[0] },
+  { user: users[0], post: posts[1] }
+])
+
+# Create comments
+comments = Comment.create!([
+  { user: users[1], post: posts[0], content: "Great post!" },
+  { user: users[0], post: posts[1], content: "Looks amazing!" }
+])
+
+# Create follows
+follows = Follow.create!([
+  { follower: users[0], followed: users[1] },
+  { follower: users[1], followed: users[0] }
+])
 
 # Create shares
-Share.create!(post_id: post1.id)
-Share.create!(post_id: post2.id)
+shares = Share.create!([
+  { user: users[0], post: posts[1] },
+  { user: users[1], post: posts[0] }
+])
 
-# Create some comments
-Comment.create!(user: user1, post: post2, content: 'Such an inspiring post!')
-Comment.create!(user: user2, post: post1, content: 'Amazing photos, I want to learn photography!')
+# Create user interests
+user_interests = UserInterest.create!([
+  { user: users[0], title: "Photography" },
+  { user: users[1], title: "Traveling" },
+  { user: users[0], title: "Tech Gadgets" }
+])
 
-# Create followers (for the follow relationship)
-Follow.create!(follower_id: user1.id, followed_id: user2.id)
-Follow.create!(follower_id: user2.id, followed_id: user1.id)
-
-puts "Seed data created successfully."
+puts "Seeding complete!"

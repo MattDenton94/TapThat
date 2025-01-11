@@ -4,9 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :posts, dependent: :destroy
-  has_many :comments, dependent: :destroy
-  has_many :followed_id
-  has_many :follow
+  has_many :posts
+  has_many :comments
+  has_many :likes
   has_many :shares
+  has_many :follows
+  has_many :followers, through: :follows, source: :follower
+  has_many :followed_users, through: :follows, source: :followed
 end
