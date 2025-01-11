@@ -8,3 +8,10 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+# db/seeds.rb
+
+# db/seeds.rb
+
+# db/seeds.rb
+
+# db/seeds.rb
