@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   # resources :interests, only: [:index, :show, :create, :update, :destroy]
   resources :user_interests, only: [:create, :destroy]
 
-  resources :follow, only: [:index, :show, :create, :update]
+  resources :follow, only: [:create, :destroy]
   resources :share, only: [:create, :show, :destroy]
   # resources :message, only: [:index, :show, :create, :destroy]
 end
