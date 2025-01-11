@@ -4,10 +4,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :posts, dependent: :destroy
+  has_many :posts
   has_many :comments, dependent: :destroy
-  has_many :follows, foreign_key: :follower_id
-  has_many :followed_users, through: :follows, source: :followed
   has_many :shares
   has_many :likes
+
+  # Users this user is following
+  has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :following, through: :active_follows, source: :followed
+
+  # Users following this user
+  has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followers, through: :passive_follows, source: :follower
 end
