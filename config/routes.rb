@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "home/index"
   devise_for :users
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -19,11 +20,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  resources :users
   resources :likes, only: [:create, :destroy]
-  # resources :interests, only: [:index, :show, :create, :update, :destroy]
+  resources :interests, only: [:index, :show, :create, :update, :destroy]
   resources :user_interests, only: [:create, :destroy]
-
-  resources :follow, only: [:create, :destroy]
-  resources :share, only: [:create, :show, :destroy]
-  # resources :message, only: [:index, :show, :create, :destroy]
+  resources :posts
 end
