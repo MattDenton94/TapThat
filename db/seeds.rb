@@ -7,7 +7,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-
+puts "Cleaning database..."
 Follow.destroy_all
 Share.destroy_all
 Like.destroy_all
