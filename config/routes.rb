@@ -18,5 +18,10 @@ Rails.application.routes.draw do
   resources :likes, only: [:create, :destroy]
   resources :interests, only: [:index, :show, :create, :update, :destroy]
   resources :user_interests, only: [:create, :destroy]
-  resources :posts
+  resources :posts do
+    resource :like, only: [:create, :destroy]
+  end
+  resources :posts do
+    resource :share, only: [:create, :destroy]
+  end
 end
