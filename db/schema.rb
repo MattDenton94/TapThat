@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_14_170534) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower"
+    t.integer "following"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "interests", force: :cascade do |t|

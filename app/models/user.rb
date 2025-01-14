@@ -9,11 +9,10 @@ class User < ApplicationRecord
   has_many :shares
   has_many :likes
 
-  # Users this user is following
-  has_many :active_follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
-  has_many :following, through: :active_follows, source: :followed
+ # Follow associations
+ has_many :followed_users, foreign_key: :follower_id, class_name: 'Follow'
+ has_many :following, through: :followed_users, source: :following
 
-  # Users following this user
-  has_many :passive_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
-  has_many :followers, through: :passive_follows, source: :follower
+ has_many :following_users, foreign_key: :following_id, class_name: 'Follow'
+ has_many :followers, through: :following_users, source: :follower
 end

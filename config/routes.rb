@@ -21,8 +21,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   resources :users
-  resources :likes, only: [:create, :destroy]
   resources :interests, only: [:index, :show, :create, :update, :destroy]
   resources :user_interests, only: [:create, :destroy]
-  resources :posts
+  resources :follow, only: [:index, :create, :destroy]
+  resources :posts do
+    resource :like, only: [:create, :destroy]
+  end
+  resources :posts do
+    resource :share, only: [:create, :destroy]
+  end
 end
