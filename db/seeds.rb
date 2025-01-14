@@ -1,18 +1,7 @@
 # # This file should ensure the existence of records required to run the application in every environment (production,
 # # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-# #
-# # Example:
-# #
-# #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-# #     MovieGenre.find_or_create_by!(name: genre_name)
-# #   end
 
-# # db/seeds.rb
-
-# # db/seeds.rb
-
-# # db/seeds.rb
 
 # # db/seeds.rb
 # Clear existing data
@@ -28,9 +17,9 @@ User.destroy_all
 
 # Users
 users = User.create!([
-  { email: 'alice@example.com', password: 'password', username: 'alice123', bio: 'I love hiking and photography.' },
-  { email: 'bob@example.com', password: 'password', username: 'bob_the_builder', bio: 'Carpenter by day, gamer by night.' },
-  { email: 'charlie@example.com', password: 'password', username: 'charlie', bio: 'Tech enthusiast and foodie.' }
+  { email: 'alice@example.com', password: 'password', username: 'alice123', bio: 'I love hiking and photography.', profile_url: 'https://discoverymood.com/wp-content/uploads/2020/04/Mental-Strong-Women-min-480x340.jpg' },
+  { email: 'bob@example.com', password: 'password', username: 'bob_the_builder', bio: 'Carpenter by day, gamer by night.', profile_url: ' https://static.vecteezy.com/system/resources/thumbnails/005/346/410/small_2x/close-up-portrait-of-smiling-handsome-young-caucasian-man-face-looking-at-camera-on-isolated-light-gray-studio-background-photo.jpg' },
+  { email: 'charlie@example.com', password: 'password', username: 'charlie', bio: 'Tech enthusiast and foodie.', profile_url: 'https://media.istockphoto.com/id/1326417862/photo/young-woman-laughing-while-relaxing-at-home.jpg?s=612x612&w=0&k=20&c=cd8e6RBGOe4b8a8vTcKW0Jo9JONv1bKSMTKcxaCra8c=' }
 ])
 
 # Interests
