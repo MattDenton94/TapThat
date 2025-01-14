@@ -1,0 +1,4 @@
+<%= simple_form_for [@post, PostInterest.new] do |f| %>
+  <%= f.input :interest_id, collection: Interest.all.map { |i| [i.name, i.id] }, label: 'Select Interest' %>
+  <%= f.submit 'Add Interest' %>
+<% end %>

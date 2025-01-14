@@ -1,0 +1,8 @@
+<h1>Add a New Interest</h1>
+
+<%= simple_form_for @user_interest do |f| %>
+  <%= f.input :interest_id, collection: Interest.all.collect { |i| [i.name, i.id] }, prompt: 'Select an Interest' %>
+  <%= f.button :submit, 'Add Interest', class: 'btn btn-success' %>
+<% end %>
+
+<%= link_to 'Back to Interests', user_interests_path, class: 'btn btn-link' %>

@@ -1,0 +1,14 @@
+<h1>Your Interests</h1>
+<% if @user_interests.any? %>
+  <ul>
+    <% @user_interests.each do |user_interest| %>
+      <li><%= user_interest.interest.name %>
+        <%= link_to 'Remove', user_interest_path(user_interest), data: {turbo_method: :delete}, class: 'btn btn-danger' %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no interests yet. Start adding some!</p>
+<% end %>
+
+<%= link_to 'Add Interest', new_user_interest_path, class: 'btn btn-primary' %>

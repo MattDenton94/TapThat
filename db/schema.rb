@@ -10,20 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[7.2].define(version: 2025_01_11_151431) do
-=======
 ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
->>>>>>> 5ca7ad93269700a33e46f42614d0dea9a6da0cac
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "comments", force: :cascade do |t|
-    t.string "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.bigint "post_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -40,6 +36,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
     t.bigint "post_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_likes_on_post_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -60,16 +58,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "content"
+    t.bigint "user_id", null: false
+    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "shares", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_shares_on_post_id"
+    t.index ["user_id"], name: "index_shares_on_user_id"
   end
 
   create_table "user_interests", force: :cascade do |t|
@@ -88,22 +90,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "post_id"
-    t.bigint "comment_id"
-    t.bigint "follow_id"
-    t.bigint "like_id"
-    t.bigint "share_id"
-    t.string "username"
-    t.string "first_name"
-    t.string "last_name"
-    t.text "bio"
-    t.index ["comment_id"], name: "index_users_on_comment_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["follow_id"], name: "index_users_on_follow_id"
-    t.index ["like_id"], name: "index_users_on_like_id"
-    t.index ["post_id"], name: "index_users_on_post_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["share_id"], name: "index_users_on_share_id"
   end
 
   add_foreign_key "comments", "posts"
@@ -114,10 +102,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
   add_foreign_key "post_interests", "interests"
   add_foreign_key "post_interests", "posts"
   add_foreign_key "posts", "users"
+  add_foreign_key "shares", "posts"
+  add_foreign_key "shares", "users"
   add_foreign_key "user_interests", "users"
-  add_foreign_key "users", "comments"
-  add_foreign_key "users", "follows"
-  add_foreign_key "users", "likes"
-  add_foreign_key "users", "posts"
-  add_foreign_key "users", "shares"
 end
