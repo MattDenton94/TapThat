@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[7.2].define(version: 2025_01_11_151431) do
+=======
+ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
+>>>>>>> 5ca7ad93269700a33e46f42614d0dea9a6da0cac
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,18 +28,35 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_151431) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "follows", force: :cascade do |t|
-    t.bigint "follower_id", null: false
-    t.bigint "followed_id", null: false
+  create_table "interests", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["followed_id"], name: "index_follows_on_followed_id"
-    t.index ["follower_id"], name: "index_follows_on_follower_id"
   end
 
   create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "post_interests", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "interest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interest_id"], name: "index_post_interests_on_interest_id"
+    t.index ["post_id"], name: "index_post_interests_on_post_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -87,8 +108,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_151431) do
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
-  add_foreign_key "follows", "users", column: "followed_id"
-  add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "likes", "posts"
+  add_foreign_key "likes", "users"
+  add_foreign_key "messages", "users"
+  add_foreign_key "post_interests", "interests"
+  add_foreign_key "post_interests", "posts"
   add_foreign_key "posts", "users"
   add_foreign_key "user_interests", "users"
   add_foreign_key "users", "comments"
