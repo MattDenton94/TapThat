@@ -1,10 +1,15 @@
 class SharesController < ApplicationController
   before_action :authenticate_user!
 
-  def share
+  def create
     # finds the post
     @post = Post.find_by(id: params[:id])
+    @share = Share.new
+    @share.post = @post
+    @share.user = current_user
 
+    # post.share - how many shares a post has had
+    
     if @post
       # this creates the url for the post
       @posts_url = post_url(@post)
