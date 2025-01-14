@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
   def show
-    @posts = @user.posts
-    @followers = @user.followers
-    @following = @user.followed_users
+    @user = User.find_by(id: params[:id])  
+    if @user.nil?
+      redirect_to root_path, alert: "User not found"
+    else
+      @posts = @user.posts
+      @followers = @user.followers
+      @following = @user.followed_users
+    end
   end
 
   def edit
