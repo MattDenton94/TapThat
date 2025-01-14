@@ -10,20 +10,22 @@
 puts "Cleaning database..."
 # db/seeds.rb
 
+# db/seeds.rb
+
 # Clear existing data
 User.destroy_all
 Post.destroy_all
 Like.destroy_all
 Comment.destroy_all
-Follow.destroy_all
+# Follow.destroy_all
 Share.destroy_all
 UserInterest.destroy_all
 
 # Create users
 users = User.create!([
-  { username: "johndoe", first_name: "John", last_name: "Doe", bio: "Lover of technology and photography." },
-  { username: "janedoe", first_name: "Jane", last_name: "Doe", bio: "Avid traveler and food blogger." },
-  { username: "admin", first_name: "Admin", last_name: "User", bio: "Here to manage things." }
+  { username: "johndoe", first_name: "John", last_name: "Doe", bio: "Lover of technology and photography.", email: "johndoe@example.com", password: "password123" },
+  { username: "janedoe", first_name: "Jane", last_name: "Doe", bio: "Avid traveler and food blogger.", email: "janedoe@example.com", password: "password123" },
+  { username: "admin", first_name: "Admin", last_name: "User", bio: "Here to manage things.", email: "admin@example.com", password: "password123" }
 ])
 
 # Create posts
@@ -45,11 +47,11 @@ comments = Comment.create!([
   { user: users[0], post: posts[1], content: "Looks amazing!" }
 ])
 
-# Create follows
-follows = Follow.create!([
-  { follower: users[0], followed: users[1] },
-  { follower: users[1], followed: users[0] }
-])
+# # Create follows
+# follows = Follow.create!([
+#   { follower: users[0], followed: users[1] },
+#   { follower: users[1], followed: users[0] }
+# ])
 
 # Create shares
 shares = Share.create!([
