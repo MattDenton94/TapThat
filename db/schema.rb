@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_11_153325) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_14_164333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_153325) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "interests", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "post_id", null: false
@@ -31,6 +38,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_153325) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_likes_on_post_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "post_interests", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "interest_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["interest_id"], name: "index_post_interests_on_interest_id"
+    t.index ["post_id"], name: "index_post_interests_on_post_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -78,6 +94,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_11_153325) do
   add_foreign_key "comments", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
+  add_foreign_key "post_interests", "interests"
+  add_foreign_key "post_interests", "posts"
   add_foreign_key "posts", "users"
   add_foreign_key "shares", "posts"
   add_foreign_key "shares", "users"
