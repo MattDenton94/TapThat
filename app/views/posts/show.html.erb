@@ -7,6 +7,11 @@
 <%= render 'post_interests/form', post: @post %>
 
 <h2>Likes</h2>
+
+<!-- Display the number of likes -->
+<p>Total Likes: <%= @post.likes.count %></p>
+
+<!-- Like/Unlike button -->
 <% if @post.likes.exists?(user_id: current_user.id) %>
   <%= link_to 'Unlike', post_like_path(@post, @post.likes.find_by(user: current_user)), data: {turbo_method: :delete}, class: 'btn btn-danger' %>
 <% else %>

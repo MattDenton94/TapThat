@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_14_184412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.integer "follower_id", null: false
+    t.integer "following_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["follower_id", "following_id"], name: "index_follows_on_follower_id_and_following_id", unique: true
+    t.index ["follower_id"], name: "index_follows_on_follower_id"
+    t.index ["following_id"], name: "index_follows_on_following_id"
   end
 
   create_table "interests", force: :cascade do |t|
@@ -62,6 +72,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "media_url"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -79,6 +90,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "interest_id", null: false
+    t.index ["interest_id"], name: "index_user_interests_on_interest_id"
     t.index ["user_id"], name: "index_user_interests_on_user_id"
   end
 
@@ -90,12 +103,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
+    t.string "first_name"
+    t.string "last_name"
+    t.text "bio"
+    t.string "profile_url"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "follows", "users", column: "follower_id"
+  add_foreign_key "follows", "users", column: "following_id"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "messages", "users"
@@ -104,5 +124,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_14_165255) do
   add_foreign_key "posts", "users"
   add_foreign_key "shares", "posts"
   add_foreign_key "shares", "users"
+  add_foreign_key "user_interests", "interests"
   add_foreign_key "user_interests", "users"
 end
