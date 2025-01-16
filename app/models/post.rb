@@ -3,4 +3,5 @@ class Post < ApplicationRecord
   has_many :likes
   has_many :post_interests
   has_many :interests, through: :post_interests
+  has_many :comments
 end

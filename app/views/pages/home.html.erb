@@ -4,6 +4,7 @@
       <div class="post">
         <h2><%= post.content %></h2>
         <p>Posted by <%= link_to post.user.username, post.user %> on <%= post.created_at.strftime("%B %d, %Y %l:%M %p") %></p>
+        <%= link_to "see post", post_path(post) %>
       </div>
       <hr>
     <% end %>

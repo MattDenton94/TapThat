@@ -11,7 +11,7 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    like = @post.likes.find(params[:id])
+    like = @post.likes.where(user: current_user).first
     if like.destroy
       redirect_to @post, notice: 'Like removed successfully.'
     else

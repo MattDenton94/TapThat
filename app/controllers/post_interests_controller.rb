@@ -3,6 +3,8 @@ class PostInterestsController < ApplicationController
 
   def create
     @post_interest = PostInterest.new(post_interest_params)
+    @post = Post.find(params[:post_id])
+    @post_interest.post = @post
     if @post_interest.save
       redirect_to post_path(@post_interest.post), notice: 'Interest was successfully added to the post.'
     else

@@ -1,0 +1,32 @@
+/* Total likes display */
+.total-likes {
+  font-size: 1.5rem;
+  color: #e63946; /* Red color for the heart */
+  display: flex;
+  align-items: center;
+}
+
+.liked-heart {
+  margin-right: 8px;
+}
+
+/* Like/Unlike button */
+.like-btn {
+  font-size: 2rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.like-btn.liked i {
+  color: #e63946; /* Filled red heart for liked */
+}
+
+.like-btn.unliked i {
+  color: #aaa; /* Grey color for unliked */
+}
+
+.like-btn:hover i {
+  transform: scale(1.2);
+  transition: transform 0.2s;
+}

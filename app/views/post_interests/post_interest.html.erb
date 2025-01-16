@@ -1,9 +1,0 @@
-<h3>Interests</h3>
-<ul>
-  <% @post.post_interests.each do |post_interest| %>
-    <li>
-      <%= post_interest.interest.name %>
-      <%= link_to 'Remove', post_post_interest_path(@post, post_interest), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}%> 
-    </li>
-  <% end %>
-</ul>
