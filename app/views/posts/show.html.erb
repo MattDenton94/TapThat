@@ -1,3 +1,4 @@
+
 <h1><%= @post.content %></h1>
 
 <!-- Render the post's interests -->
@@ -25,3 +26,10 @@
 <% end %>
 
 <%= link_to 'Back to Posts', posts_path %>
+
+
+<!-- Copy link of post to clipboard here -->
+<div class="copy-to-clipboard" data-controller="clipboard">
+  <button data-action="clipboard#copy">Share</button>
+</div>
+
