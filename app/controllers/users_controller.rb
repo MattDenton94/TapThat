@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  
+
   def show
     @user = User.find_by(id: params[:id])
     if @user.nil?
@@ -11,8 +11,11 @@ class UsersController < ApplicationController
       @following = @user.following
     end
   end
-  
+
   def edit
+  end
+
+  def update
   end
 
   def follow
@@ -30,10 +33,11 @@ class UsersController < ApplicationController
   rescue => e
     render json: { success: false, error: e.message }, status: :internal_server_error
   end
-  
+
   def destroy
     @user.destroy
     redirect_to root_path, notice: "Your account has been deleted."
+  end
 
 private
 
