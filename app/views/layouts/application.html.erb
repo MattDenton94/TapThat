@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Tap That" %></title>
+    <title><%= content_for(:title) || "TapThat" %></title>
+      <link rel="icon" type="image/png" href="<%= asset_path('hands1.png') %>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -10,8 +11,8 @@
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+<!--    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">-->
     <link rel="apple-touch-icon" href="/icon.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -19,8 +20,9 @@
   </head>
 
   <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
-
+      <%= render "shared/flashes" %>
+      <div class="background-image">
     <%= yield %>
+      </div>
   </body>
 </html>

@@ -6,6 +6,8 @@ class SharesController < ApplicationController
     @share_count = @post.shares.count # Count the number of shares for that post
   end
 
+  # create a share for counting
+  # seeing who shared my post (post.share)
   def create
     # finds the post
     @post = Post.find_by(id: params[:id])
