@@ -15,11 +15,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update(user_params)
-      redirect_to @user, notice: 'Profile updated successfully!'
-    else
-      render :edit
-    end
   end
 
   def follow
@@ -36,10 +31,6 @@ class UsersController < ApplicationController
     render json: { success: true }, status: :ok
   rescue => e
     render json: { success: false, error: e.message }, status: :internal_server_error
-  end
-
-  def index
-    @users = User.all
   end
 
   def destroy

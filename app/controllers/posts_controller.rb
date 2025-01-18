@@ -11,6 +11,19 @@ class PostsController < ApplicationController
     @comments = @post.comments.order(created_at: :desc)
   end
 
+  def like
+    @post = Post.find(params[:id])
+    @post.likes.create(user: current_user)
+    redirect_to @post, notice: "Post liked successfully!"
+  end
+
+  def unlike
+    @post = Post.find(params[:id])
+    like = @post.likes.find_by(user: current_user)
+    like.destroy if like
+    redirect_to @post, notice: "Post unliked successfully!"
+  end
+  
   def new
     @post = Post.new
   end
@@ -25,6 +38,7 @@ class PostsController < ApplicationController
   end
 
   def edit
+  @post = Post.find(params[:id])
   end
 
   def update

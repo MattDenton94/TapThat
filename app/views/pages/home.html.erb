@@ -1,5 +1,6 @@
 <div class="home-page">
 <div class="feed">
+  <%= link_to 'New Post', new_post_path, class: 'btn btn-primary' %>
   <% if @posts.any? %>
     <div class="posts-list">
       <% @posts.each do |post| %>
