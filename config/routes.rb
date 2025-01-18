@@ -20,11 +20,11 @@ Rails.application.routes.draw do
   resources :user_interests, only: [:index, :new, :create, :destroy]
 
   resources :posts do
-    resource :like, only: [:create, :destroy]
+    resources :like, only: [:create, :destroy]
     resources :post_interests, only: [:create, :destroy]
     # resources :interests, only: [:index, :show]
     # resources :user_interests, only: [:index, :new, :create, :destroy]
-    resource :share, only: [:create, :destroy]
+    resources :share, only: [:create, :destroy]
+    resources :comments, only: [:create, :edit, :destory]
   end
 end
-
