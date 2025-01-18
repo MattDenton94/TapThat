@@ -1,39 +1,27 @@
 class UsersController < ApplicationController
-  def show
-    @posts = @user.posts
-    @followers = @user.followers
-    @following = @user.followed_users
-  end
+  before_action :set_user, only: [:edit, :update, :show]
 
   def edit
-
+    # @user is set by the before_action
   end
 
   def update
+    # @user is set by the before_action
     if @user.update(user_params)
-      redirect_to @user, notice: 'Profile updated successfully!'
+      redirect_to user_path(@user), notice: "Profile updated successfully."
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  def follow
-    current_user.follow(@user)
-    redirect_to @user, notice: "You are now following #{@user.username}."
+  private
+
+  def set_user
+    @user = User.find(params[:id])
   end
 
-  def unfollow
-    current_user.unfollow(@user)
-    redirect_to @user, notice: "You have unfollowed #{@user.username}."
-  end
-
-  def index
-    @users = User.all
-  end
-
-  def destroy
-     @user.destroy
-    redirect_to root_path, notice: "Your account has been deleted."
+  def user_params
+    params.require(:user).permit(:profile_url, :name, :username, :bio)
   end
 
 private
