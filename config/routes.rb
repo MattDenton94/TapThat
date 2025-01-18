@@ -7,7 +7,27 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  resources :users
+  # Defines the root path route ("/")
+  # root "posts#index"
+
+  # ability to follow & unfollow a user
+  resources :users do
+    member do
+      post "follow"
+      delete "unfollow"
+    end
+  end
+
+  # retrive following & followers list
+  # resources :follows, only: [:index]
+  # resources :follows, only: [] do
+  #   collection do
+  #     get "following"
+  #     get "followers"
+  #   end
+  # end
+
+  # resources :interests, only: [:index, :show, :create, :update, :destroy]
   resources :interests, only: [:index, :show]
   resources :user_interests, only: [:index, :new, :create, :destroy]
 

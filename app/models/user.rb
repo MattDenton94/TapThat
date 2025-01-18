@@ -13,13 +13,23 @@ class User < ApplicationRecord
   has_many :liked_posts, through: :likes, source: :post
 
   # Follow associations
-  has_many :followed_users, foreign_key: :follower_id, class_name: 'Follow'
-  has_many :following, through: :followed_users, source: :following
+  has_many :follower_associations, foreign_key: :following_id, class_name: 'Follow', dependent: :destroy
+  has_many :followers, through: :follower_associations, source: :follower
 
-  has_many :following_users, foreign_key: :following_id, class_name: 'Follow'
-  has_many :followers, through: :following_users, source: :follower
+  has_many :following_associations, foreign_key: :follower_id, class_name: 'Follow', dependent: :destroy
+  has_many :following, through: :following_associations, source: :following
 
-  def liked?(post)
-    liked_posts.exists?(post.id)
+  def follow(user)
+    Follow.find_or_create_by(follower: self, following: user)
+  end
+
+  def unfollow(user)
+    follow_record = Follow.find_by(follower: self, following: user)
+    follow_record.destroy if follow_record
+  end
+
+  # Check if following a user
+  def following?(user)
+    following.include?(user)
   end
 end
