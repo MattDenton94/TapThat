@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [ :home ]
+  before_action :authenticate_user!
 
   def home
     @posts = Post.includes(:user).order(created_at: :desc)
