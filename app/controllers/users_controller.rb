@@ -1,29 +1,27 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:edit, :update, :show, :follow, :unfollow]
+
   def show
-    @user = User.find_by(id: params[:id])
-    if @user.nil?
-      redirect_to root_path, alert: "User not found"
-    else
-      @posts = @user.posts
-      @followers = @user.followers
-      @following = @user.following
-    end
+    @posts = @user.posts
+    @followers = @user.followers
+    @following = @user.following
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "User not found"
   end
 
   def edit
-
+    # @user is set by the before_action
   end
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'Profile updated successfully!'
+      redirect_to user_path(@user), notice: "Profile updated successfully."
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def follow
-    @user = User.find(params[:id])
     current_user.follow(@user)
     render json: { success: true }, status: :ok
   rescue => e
@@ -31,23 +29,13 @@ class UsersController < ApplicationController
   end
 
   def unfollow
-    @user = User.find(params[:id])
     current_user.unfollow(@user)
     render json: { success: true }, status: :ok
   rescue => e
     render json: { success: false, error: e.message }, status: :internal_server_error
   end
 
-  def index
-    @users = User.all
-  end
-
-  def destroy
-     @user.destroy
-    redirect_to root_path, notice: "Your account has been deleted."
-  end
-
-private
+  private
 
   def set_user
     @user = User.find(params[:id])
