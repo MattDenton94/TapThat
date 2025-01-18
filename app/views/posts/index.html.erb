@@ -4,7 +4,7 @@
   <% @posts.each do |post| %>
     <div class="post">
       <div class="post-header">
-        <%= image_tag post.user.profile_picture || "default_profile_pic.jpg", class: "profile-pic" %>
+        <%= image_tag post.user.profile_url || "default_profile_pic.jpg", class: "profile-pic" %>
         <div class="post-user-info">
           <strong><%= post.user.username %></strong>
           <p><%= time_ago_in_words(post.created_at) %> ago</p>

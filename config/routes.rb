@@ -27,4 +27,3 @@ Rails.application.routes.draw do
     resource :share, only: [:create, :destroy]
   end
 end
-
