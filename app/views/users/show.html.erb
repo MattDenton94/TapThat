@@ -1,4 +1,24 @@
+<div class="main-profile">
+<div class="profile">
 <div class="profile-header">
+
+  <h1><%= @user.first_name %></h1>
+  <p>@<%= @user.username %></p>
+
+  <div id="follow-unfollow-container" data-controller="follow" data-user-id="<%= @user.id %>">
+    <% if current_user.following.include?(@user) %>
+      <button class="btn btn-outline-dark px-4" data-action="click->follow#unfollow" data-follow-target="button">
+        Following
+      </button>
+    <% else %>
+      <button class="btn btn-primary px-5" data-action="click->follow#follow" data-follow-target="button">
+        Follow
+      </button>
+    <% end %>
+  </div>
+
+
+
   <div class="profile-picture">
     <% if @user.profile_url.present? %>
       <%= image_tag @user.profile_url, alt: @user.username, class: 'profile-pic' %>
@@ -6,14 +26,14 @@
       <%= image_tag 'default_profile_picture.png', alt: 'Default Profile Picture', class: 'profile-pic' %>
     <% end %>
   </div>
-    <h1><%= @user.first_name %></h1>
-    <p>@<%= @user.username %></p>
-  </div>
+</div>
 
   <div class="bio">
     <p><%= @user.bio %></p>
   </div>
-  <div class="stats">
+
+
+  <div class="stats more-stats">
     <div>
       <h3><%= @user.posts.count %></h3>
       <p>Posts</p>
@@ -27,9 +47,13 @@
       <p>Following</p>
     </div>
   </div>
+
+
   <div class="action">
     <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-primary' %>
   </div>
+
+
   <div class="posts">
     <h2>Posts</h2>
     <div class="posts-grid">
