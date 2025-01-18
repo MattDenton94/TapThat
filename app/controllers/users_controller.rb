@@ -1,28 +1,39 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :show]
-
-  def edit
-    # @user is set by the before_action
-  end
-
-  def update
-    # @user is set by the before_action
-    if @user.update(user_params)
-      redirect_to user_path(@user), notice: "Profile updated successfully."
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  
+  def show
+    @user = User.find_by(id: params[:id])
+    if @user.nil?
+      redirect_to root_path, alert: "User not found"
     else
-      render :edit, status: :unprocessable_entity
+      @posts = @user.posts
+      @followers = @user.followers
+      @following = @user.following
     end
   end
+  
+  def edit
+  end
 
-  private
-
-  def set_user
+  def follow
     @user = User.find(params[:id])
+    current_user.follow(@user)
+    render json: { success: true }, status: :ok
+  rescue => e
+    render json: { success: false, error: e.message }, status: :internal_server_error
   end
 
-  def user_params
-    params.require(:user).permit(:profile_url, :name, :username, :bio)
+  def unfollow
+    @user = User.find(params[:id])
+    current_user.unfollow(@user)
+    render json: { success: true }, status: :ok
+  rescue => e
+    render json: { success: false, error: e.message }, status: :internal_server_error
   end
+  
+  def destroy
+    @user.destroy
+    redirect_to root_path, notice: "Your account has been deleted."
 
 private
 

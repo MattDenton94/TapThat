@@ -14,7 +14,24 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :users
+
+  # ability to follow & unfollow a user
+  resources :users do
+    member do
+      post "follow"
+      delete "unfollow"
+    end
+  end
+
+  # retrive following & followers list
+  # resources :follows, only: [:index]
+  # resources :follows, only: [] do
+  #   collection do
+  #     get "following"
+  #     get "followers"
+  #   end
+  # end
+
   # resources :interests, only: [:index, :show, :create, :update, :destroy]
   resources :interests, only: [:index, :show]
   resources :user_interests, only: [:index, :new, :create, :destroy]
