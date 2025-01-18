@@ -1,54 +1,39 @@
-<h1 class="feed-header">Feed</h1>
+<h1>Posts</h1>
 
-<div class="posts-container">
-  <% @posts.each do |post| %>
-    <div class="post">
-      <div class="post-header">
-        <%= image_tag post.user.profile_picture || "default_profile_pic.jpg", class: "profile-pic" %>
-        <div class="post-user-info">
-          <strong><%= post.user.username %></strong>
-          <p><%= time_ago_in_words(post.created_at) %> ago</p>
-        </div>
-      </div>
+<% @posts.each do |post| %>
+  <div class="post">
+    <!-- Display Post Content -->
+    <p><%= post.content %></p>
 
-      <div class="post-content">
-        <p><%= post.content %></p>
-      </div>
-
-      <div class="post-actions">
-        <div class="likes">
-          <%= link_to "Like", like_post_path(post), method: :post, class: "like-button" %>
-          <span><%= post.likes.count %> likes</span>
-        </div>
-        <div class="comments">
-          <%= link_to "Comment", post_path(post), class: "comment-button" %>
-        </div>
-        <div class="shares">
-          <%= link_to "Share", post_path(post), class: "share-button" %>
-        </div>
-      </div>
-
-      <div class="comments-section">
-        <h3>Comments</h3>
-        <% @comments = post.comments.limit(3) %>
-        <div class="comments-list">
-          <% @comments.each do |comment| %>
-            <div class="comment">
-              <strong><%= comment.user.username %>:</strong>
-              <span><%= comment.content %></span>
-            </div>
-          <% end %>
-        </div>
-
-        <%= link_to "View all comments (#{post.comments.count})", post_path(post), class: "view-comments" %>
-
-        <%= form_with model: [post, Comment.new], local: true do |form| %>
-          <div class="comment-input">
-            <%= form.text_area :content, placeholder: "Add a comment...", class: "comment-text-area", required: true %>
-            <%= form.submit "Post", class: "comment-submit-button" %>
-          </div>
-        <% end %>
-      </div>
+    <!-- Likes Section -->
+    <div class="likes">
+      <% if current_user.liked?(post) %>
+        <%= button_to 'Unlike', unlike_post_path(post), method: :delete, data: { turbo: true } %>
+      <% else %>
+        <%= button_to 'Like', like_post_path(post), method: :post, data: { turbo: true } %>
+      <% end %>
+      <span><%= post.likes.count %> likes</span>
     </div>
-  <% end %>
-</div>
+
+    <!-- Comments Section -->
+    <div class="comments">
+      <h3>Comments</h3>
+      <%= form_with(model: [post, post.comments.build], local: true) do |form| %>
+        <div class="field">
+          <%= form.label :content %>
+          <%= form.text_area :content %>
+        </div>
+        <div class="actions">
+          <%= form.submit 'Add Comment' %>
+        </div>
+      <% end %>
+
+      <ul>
+        <% post.comments.each do |comment| %>
+          <li><%= comment.content %> - <%= comment.user.name %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
