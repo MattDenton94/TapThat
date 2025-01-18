@@ -1,19 +1,13 @@
-<% if current_user  %>
-  <div class="feed">
-    <% if @posts.any? %>
-      <div class="posts-list">
-        <% @posts.each do |post| %>
-          <div class="post">
-            <h2><%= post.content %></h2>
-            <p>Posted by <%= link_to post.user.username, post.user %> on <%= post.created_at.strftime("%B %d, %Y %l:%M %p") %></p>
-          </div>
-          <hr>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-<% else %>
-<!--  <div class="sign-up-button-center">-->
-    <%#= link_to "Sign Up", new_user_registration_path, class: "sign-up-button" %>
-<!--  </div>-->
-<% end %>
+<div class="feed">
+  <% if @posts.any? %>
+    <div class="posts-list">
+      <% @posts.each do |post| %>
+        <div class="post">
+          <h2><%= post.content %></h2>
+          <p>Posted by <%= link_to post.user.username, post.user %> on <%= post.created_at.strftime("%B %d, %Y %l:%M %p") %></p>
+        </div>
+        <hr>
+      <% end %>
+    </div>
+  <% end %>
+</div>
