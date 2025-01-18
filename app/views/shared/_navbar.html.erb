@@ -1,17 +1,19 @@
 <div class="navbar">
   <div class="container-fluid">
+    <!-- "TapThat" as the Home Button -->
     <%= link_to root_path, class: "navbar-brand" do %>
       <span>TapThat</span>
     <% end %>
 
-    <ul class="navbar-nav ms-auto">
-      <% if user_signed_in? %>
+    <!-- Profile Image Link -->
+    <% if user_signed_in? %>
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <%= link_to user_path(current_user), class: "nav-link" do %>
             <%= image_tag current_user.profile_url || "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "rounded-circle", alt: "Profile Image", size: "30x30" %>
           <% end %>
         </li>
-      <% end %>
-    </ul>
+      </ul>
+    <% end %>
   </div>
 </div>
