@@ -7,6 +7,12 @@
       <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= f.error_notification %>
 
+<div class="form-inputs">
+    <%= f.input :first_name, required: true, label: "First Name" %>
+    <%= f.input :last_name, required: true, label: "Last Name" %>
+    <%= f.input :username, required: true, label: "Username" %>
+    <%= f.input :bio, as: :text, label: "Bio" %>
+    <%= f.input :profile_image, as: :file, label: "Profile Image" %>
         <div class="form-inputs">
           <%= f.input :email,
                       required: true,
