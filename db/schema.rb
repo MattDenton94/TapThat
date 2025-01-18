@@ -9,15 +9,15 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
-ActiveRecord::Schema[7.2].define(version: 2025_01_18_084441) do
 
+ActiveRecord::Schema[7.2].define(version: 2025_01_18_084441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "comments", force: :cascade do |t|
-    t.string "content"
     t.bigint "user_id", null: false
     t.bigint "post_id", null: false
+    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
@@ -68,8 +68,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_18_084441) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "content"
     t.bigint "user_id", null: false
+    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "media_url"
@@ -86,8 +86,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_18_084441) do
   end
 
   create_table "user_interests", force: :cascade do |t|
-    t.string "title"
     t.bigint "user_id", null: false
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "interest_id", null: false
@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_18_084441) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "profile_url"
     t.string "username"
     t.text "bio"
     t.string "first_name"
