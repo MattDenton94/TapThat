@@ -9,3 +9,7 @@ export default class extends Controller {
     navigator.clipboard.writeText(this.urlValue)
   }
 }
+
+
+// .fetch, to create a new share
+// check stimulus lcture (ajax)
