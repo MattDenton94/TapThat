@@ -32,4 +32,8 @@ class User < ApplicationRecord
   def following?(user)
     following.include?(user)
   end
+
+  def liked?(post)
+    liked_posts.include?(post)
+  end
 end

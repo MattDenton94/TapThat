@@ -6,6 +6,13 @@ class CommentsController < ApplicationController
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
 
+    if @comment.save
+      redirect_to post_path(@post), notice: 'Comment added successfully.'
+    else
+      redirect_to post_path(@post), alert: 'Failed to add comment.'
+    end
+  end
+
     respond_to do |format|
       if @comment.save
         format.html { redirect_to @post, notice: 'Comment was successfully created.' }
@@ -19,7 +26,6 @@ class CommentsController < ApplicationController
                             status: :unprocessable_entity }
       end
     end
-  end
 
   private
 

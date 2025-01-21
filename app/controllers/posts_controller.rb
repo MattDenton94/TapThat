@@ -1,21 +1,9 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :like, :unlike]
+  before_action :set_post, only: [:edit, :update, :destroy]
 
   def index
     @posts = current_user.posts.order(created_at: :desc)
-  end
-
-  def like
-    @post = Post.find(params[:post_id])
-    @post.likes.create(user: current_user)
-    redirect_to posts_path, notice: "Post liked successfully!"
-  end
-
-  def unlike
-    @post = Post.find(params[:post_id])
-    like = @post.likes.find_by(user: current_user)
-    like.destroy if like
-    redirect_to posts_path, notice: "Post unliked successfully!"
+    @posts = Post.includes(:user, :image_attachment, :comments).order(created_at: :desc)
   end
 
   def new
