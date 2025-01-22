@@ -8,7 +8,7 @@
   <div id="follow-unfollow-container" data-controller="follow" data-user-id="<%= @user.id %>">
     <% if current_user.following.include?(@user) %>
       <button class="btn btn-outline-dark px-4" data-action="click->follow#unfollow" data-follow-target="button">
-        Following
+        Unfollow
       </button>
     <% else %>
       <button class="btn btn-primary px-5" data-action="click->follow#follow" data-follow-target="button">
