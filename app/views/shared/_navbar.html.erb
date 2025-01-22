@@ -1,19 +1,37 @@
 <div class="navbar">
-  <div class="container-fluid">
-    <!-- "TapThat" as the Home Button -->
-    <%= link_to root_path, class: "navbar-brand" do %>
-      <span>TapThat</span>
-    <% end %>
+  <div class="navbar-align">
+    <div class="links">
+      <!-- Home Button (TapThat) -->
+      <div class="tap-and-list">
+        <%= link_to root_path, class: "navbar-brand" do %>
+          <span class="tapthat">TapThat</span>
+        <% end %>
+      </div>
 
-    <!-- Profile Image Link -->
-    <% if user_signed_in? %>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <%= link_to user_path(current_user), class: "nav-link" do %>
-            <%= image_tag current_user.profile_url || "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "rounded-circle", alt: "Profile Image", size: "30x30" %>
-          <% end %>
-        </li>
-      </ul>
-    <% end %>
+      <!-- Navigation Menu -->
+      <div class="list">
+        <ul>
+          <li class="list-items"><%= link_to 'Home', root_path, class: "list-items-text" %></li>
+          <li class="list-items">Search</li>
+          <li class="list-items">Interests</li>
+          <li class="list-items">Inbox</li>
+          <li class="list-items">Post</li>
+          <li class="list-items"><%= link_to 'Profile', user_path(current_user), class: "list-items-text" %></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Profile Image Link (if signed in) -->
+    <div class="navbar-image">
+      <% if user_signed_in? %>
+        <ul class="">
+          <li class="nav-item">
+            <%= link_to user_path(current_user), class: "nav-link" do %>
+              <%= image_tag current_user.profile_url || "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "rounded-circle", alt: "Profile Image", size: "30x30" %>
+            <% end %>
+          </li>
+        </ul>
+      <% end %>
+    </div>
   </div>
 </div>
