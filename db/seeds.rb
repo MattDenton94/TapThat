@@ -26,8 +26,16 @@ users = User.create!([
 interests = Interest.create!([
   { name: 'Hiking', description: 'Exploring trails and enjoying nature.' },
   { name: 'Gaming', description: 'Video games and esports.' },
-  { name: 'Photography', description: 'Capturing moments through a lens.' }
+  { name: 'Photography', description: 'Capturing moments through a lens.' },
+  { name: 'Traveling', description: 'Exploring new places and cultures.' },
+  { name: 'Cooking', description: 'Creating delicious meals and experimenting with recipes.' },
+  { name: 'Music', description: 'Listening to and playing music of all genres.' },
+  { name: 'Sports', description: 'Participating in and watching a variety of sports.' },
+  { name: 'Reading', description: 'Getting lost in books and literary adventures.' },
+  { name: 'Movies', description: 'Watching and discussing films and cinema.' },
+  { name: 'Coding', description: 'Writing code and developing software projects.' }
 ])
+
 
 # User Interests
 UserInterest.create!([
