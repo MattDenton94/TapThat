@@ -7,38 +7,37 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
-      redirect_to post_path(@post), notice: 'Comment added successfully.'
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to post_path(@post), notice: 'Comment added successfully.' }
+      end
     else
-      redirect_to post_path(@post), alert: 'Failed to add comment.'
-    end
-  end
-
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to @post, notice: 'Comment was successfully created.' }
-        format.json { render json: {
-          comment: @comment,
-          user: @comment.user.as_json(only: [:id, :username])
-        }, status: :created }
-      else
-        format.html { redirect_to @post, alert: @comment.errors.full_messages.join(', ') }
-        format.json { render json: { errors: @comment.errors.full_messages },
-                            status: :unprocessable_entity }
+      respond_to do |format|
+        format.html { redirect_to post_path(@post), alert: @comment.errors.full_messages.join(', ') }
       end
     end
+  end
 
-  private
+  def destroy
+    @comment = @post.comments.find(params[:id])
 
-  def set_post
-    @post = Post.find(params[:post_id])
-  rescue ActiveRecord::RecordNotFound
-    respond_to do |format|
-      format.html { redirect_to posts_path, alert: 'Post not found.' }
-      format.json { render json: { error: 'Post not found' }, status: :not_found }
+    if @comment.destroy
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to post_path(@post), notice: 'Comment deleted successfully.' }
+      end
+    else
+      redirect_to post_path(@post), alert: 'Failed to delete comment.'
     end
   end
 
-  def comment_params
-    params.require(:comment).permit(:content)
+    private
+
+    def set_post
+      @post = Post.find(params[:post_id])
+    end
+
+    def comment_params
+      params.require(:comment).permit(:content)
+    end
   end
-end

@@ -23,10 +23,9 @@
         <div class="list">
           <ul>
             <li class="list-items">Search</li>
-            <li class="list-items">Interests</li>
+            <li class="list-items">Explore</li> <!-- This will be where a user can see posts from other users that are specifically linked to their interests -->
             <li class="list-items">Inbox</li>
-            <li class="list-items">Post</li>
-            <li class="list-items"><%= link_to 'Profile', user_path(current_user), class: "list-items-text" %></li>
+            <li class="list-items"><%= link_to 'New Post', new_post_path, class: "list-items-text" %></li>
           </ul>
         </div>
       <% end %>
