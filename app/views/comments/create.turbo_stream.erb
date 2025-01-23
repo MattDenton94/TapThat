@@ -1,11 +1,7 @@
-<h1>New Comment</h1>
-
 <%= form_with(model: [ @post, @post.comments.build ], local: true, data: { controller: "comments" }) do |form| %>
   <div class="field">
-    <%= form.label :comment %>
+    <%= form.label :content %>
     <%= form.text_area :content, data: { target: "comments.content" }, class: 'form-control' %>
   </div>
   <%= form.submit 'Add Comment', class: 'btn btn-success' %>
 <% end %>
-
-<%= link_to 'Back', comments_path %>

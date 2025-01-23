@@ -4,6 +4,69 @@
   <%= link_to 'New Post', new_post_path, class: 'btn btn-primary mb-3' %>
 <% end %>
 
+<% following_posts = @posts.select { |post| current_user.following?(post.user) } %>
+<% following_posts.each do |post| %>
+  <div class="post mb-4">
+    <p class="text-muted">Posted by <%= link_to post.user.username, user_path(post.user) %></p>
+    <% if post.image.attached? %>
+      <%= image_tag url_for(post.image), class: 'img-fluid mb-3' %>
+    <% end %>
+
+    <p><%= post.content %></p>
+
+    <!-- Likes Section -->
+    <div class="likes">
+      <% if current_user && current_user.liked?(post) %>
+        <% like = post.likes.find_by(user: current_user) %>
+        <%= button_to 'Unlike', post_like_path(post, like), method: :delete, data: { turbo: true }, class: 'btn btn-secondary btn-sm' %>
+      <% else %>
+        <%= button_to 'Like', post_likes_path(post), method: :post, data: { turbo: true }, class: 'btn btn-primary btn-sm' %>
+      <% end %>
+      <span><%= post.likes.count %> likes</span>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments" data-controller="comments">
+      <h3>Comments</h3>
+
+      <!-- Toggle Button -->
+      <button data-target="comments.toggleButton" data-action="click->comments#toggle">Show Comments</button>
+
+      <!-- Comment Form -->
+      <%= simple_form_for([post, post.comments.build], html: { data: { controller: "comments", action: "turbo:submit-end->comments#resetForm" } }) do |form| %>
+        <div class="form-group">
+          <%= form.input :content,
+                         as: :text,
+                         placeholder: "Add a comment...",
+                         label: false,
+                         input_html: { data: { target: "comments.content" }, class: "form-control" } %>
+        </div>
+        <div class="form-actions">
+          <%= form.button :submit, "Add Comment",
+                          class: "btn btn-success btn-sm" %>
+        </div>
+      <% end %>
+
+      <!-- Comments List -->
+      <ul data-comments-target="list">
+        <p>Comments</p>
+        <% post.comments.each do |comment| %>
+          <li>
+            <%= comment.content %>
+            <% if comment.user.present? %>
+              - <%= comment.user.username %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= link_to 'New Post', new_post_path, class: 'btn btn-primary mb-3' %>
+<% end %>
+
 <% @posts.each do |post| %>
   <div class="post mb-4">
     <p class="text-muted">Posted by <%= link_to post.user.username, user_path(post.user) %></p>
@@ -27,34 +90,38 @@
 
 
     <!-- Comments Section -->
-    <div class="comments" data-controller="comments">
-      <h3>Comments</h3>
+<div class="comments" data-controller="comments">
+  <h3>Comments</h3>
 
-      <!-- Toggle Button -->
-      <button data-target="comments.toggleButton" data-action="click->comments#toggle">Show Comments</button>
+  <!-- Toggle Button -->
+  <button data-target="comments.toggleButton" data-action="click->comments#toggle">Show Comments</button>
 
-      <!-- Comment Form -->
-      <%= form_with(model: [post, post.comments.build], local: true, data: { controller: "comments", action: "turbo:submit-end->comments#resetForm" }) do |form| %>
-        <div class="field">
-          <%= form.label :content %>
-          <%= form.text_area :content, data: { target: "comments.content" } %>
-        </div>
-        <div class="actions">
-          <%= form.submit 'Add Comment', class: 'btn btn-success btn-sm' %>
-        </div>
-      <% end %>
-
-      <!-- Comments List -->
-     <ul data-target="comments.list">
-  <% post.comments.each do |comment| %>
-    <li>
-      <%= comment.content %>
-      <% if comment.user.present? %>
-        - <%= comment.user.username %>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
+  <!-- Comment Form -->
+  <%= simple_form_for([post, post.comments.build], html: { data: { controller: "comments", action: "turbo:submit-end->comments#resetForm" } }) do |form| %>
+    <div class="form-group">
+      <%= form.input :content,
+                     as: :text,
+                     placeholder: "Add a comment...",
+                     label: false,
+                     input_html: { data: { target: "comments.content" }, class: "form-control" } %>
     </div>
-  </div>
+    <div class="form-actions">
+      <%= form.button :submit, "Add Comment",
+                      class: "btn btn-success btn-sm" %>
+    </div>
+  <% end %>
+
+  <!-- Comments List -->
+  <ul data-comments-target="list">
+    <p>Comments</p>
+    <% post.comments.each do |comment| %>
+      <li>
+        <%= comment.content %>
+        <% if comment.user.present? %>
+          - <%= comment.user.username %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
 <% end %>

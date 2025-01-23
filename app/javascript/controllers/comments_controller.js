@@ -1,21 +1,14 @@
-import { Controller } from "stimulus";
+import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["list", "toggleButton"];
+  static targets = ["input", "submitButton"];
 
   connect() {
-    // Initialize with comments hidden
-    this.listTarget.style.display = "none";
-    this.toggleButtonTarget.innerHTML = "Show Comments";
+    this.toggleSubmitButton();
   }
 
-  toggle() {
-    if (this.listTarget.style.display === "none") {
-      this.listTarget.style.display = "block";
-      this.toggleButtonTarget.innerHTML = "Hide Comments";
-    } else {
-      this.listTarget.style.display = "none";
-      this.toggleButtonTarget.innerHTML = "Show Comments";
-    }
+  toggleSubmit(event) {
+    const input = this.inputTarget.value.trim();
+    this.submitButtonTarget.disabled = input.length === 0;
   }
 }
