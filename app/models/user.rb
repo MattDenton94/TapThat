@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :likes
   has_many :shares
 
+  has_many :liked_posts, through: :likes, source: :post
+
   # Follow associations
   has_many :follower_associations, foreign_key: :following_id, class_name: 'Follow', dependent: :destroy
   has_many :followers, through: :follower_associations, source: :follower
@@ -29,5 +31,9 @@ class User < ApplicationRecord
   # Check if following a user
   def following?(user)
     following.include?(user)
+  end
+
+  def liked?(post)
+    liked_posts.include?(post)
   end
 end
