@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   get "home/index"
   devise_for :users
-  root to: "posts#index"
-  get 'posts/:id', to: redirect('/posts')
+  root to: "pages#home"
+  # root to: "posts#index"
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
