@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   get "home/index"
   devise_for :users
-  root to: "pages#home"
-  # root to: "posts#index"
+  # root to: "pages#home"
+  root to: "posts#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   get "up" => "rails/health#show", as: :rails_health_check
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # ability to follow & unfollow a user
-  resources :users do
+  resources :users, only: [:show] do
     member do
       post "follow"
       delete "unfollow"
