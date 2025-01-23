@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:edit, :update, :destroy]
   def show
+    # raise
     @user = User.find_by(id: params[:id])
     if @user.nil?
       redirect_to root_path, alert: "User not found"
+      # redirect_to new_user_session_path, alert: "User not found"
     else
       @posts = @user.posts
       @followers = @user.followers

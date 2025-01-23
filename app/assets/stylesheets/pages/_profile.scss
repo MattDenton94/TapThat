@@ -92,6 +92,9 @@
 
 @media (max-width: 768px) {
 
+  .side-profile-header{
+    width: fit-content;
+  }
   .profile{
     max-width: 360px;
     // background-color: red;
@@ -110,7 +113,7 @@
   }
 
   .profile-picture{
-    gap: 50px;
+    // gap: 50px;
     padding-right: 45px;
   }
 }
