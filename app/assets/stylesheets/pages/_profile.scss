@@ -57,7 +57,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  gap: 20px;
+  gap: 60px;
 }
 
 .stats-item{
@@ -94,7 +94,7 @@
 
   .profile{
     max-width: 360px;
-    background-color: red;
+    // background-color: red;
   }
 
   .profile-pic {
@@ -106,7 +106,7 @@
   }
 
   .stats{
-    gap: 60px;
+    gap: 40px;
   }
 
   .profile-picture{
