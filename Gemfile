@@ -41,7 +41,7 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem 'faker'
-gem 'cloudinary', '~> 1.26.0'
+gem 'cloudinary', '~> 2.2.0'
 gem 'dotenv-rails', groups: [:development, :test]
 
 
