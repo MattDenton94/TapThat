@@ -40,10 +40,10 @@ class PostsController < ApplicationController
 
   def set_post
     @post = if params[:post_id]
-      Post.find(params[:post_id])
-    else
-      Post.find(params[:id])
-    end
+              Post.find(params[:post_id])
+            else
+              Post.find(params[:id])
+            end
   rescue ActiveRecord::RecordNotFound
     redirect_to posts_path, alert: "Post not found."
   end
