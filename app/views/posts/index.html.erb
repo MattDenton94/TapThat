@@ -1,12 +1,16 @@
 <div class="posts-index">
 
-<h1>Feed</h1>
+  <h1>Feed</h1>
 
-<% if user_signed_in? %>
-  <%= link_to 'New Post', new_post_path, class: 'btn btn-primary mb-3' %>
-<% end %>
+  <% if user_signed_in? %>
+    <%= link_to 'New Post', new_post_path, class: 'btn btn-primary mb-3' %>
+  <% end %>
 
-<% following_posts = @posts.select { |post| current_user.following?(post.user) } %>
+  <% following_posts = @posts.select { |post| current_user.following?(post.user) } %>
+  <% following_posts.each do |post| %>
+    <%= render partial: 'post', locals: { post: post } %>
+  <% end %>
+
 <% following_posts.each do |post| %>
   <div class="post mb-4">
     <p class="text-muted">Posted by <%= link_to post.user.username, user_path(post.user) %></p>
@@ -14,118 +18,50 @@
       <%= image_tag url_for(post.image), class: 'img-fluid mb-3' %>
     <% end %>
 
-    <p><%= post.content %></p>
+  <p><%= post.content %></p>
 
-    <!-- Likes Section -->
-    <div class="likes">
-      <% if current_user && current_user.liked?(post) %>
-        <% like = post.likes.find_by(user: current_user) %>
-        <%= button_to 'Unlike', post_like_path(post, like), method: :delete, data: { turbo: true }, class: 'btn btn-secondary btn-sm' %>
-      <% else %>
-        <%= button_to 'Like', post_likes_path(post), method: :post, data: { turbo: true }, class: 'btn btn-primary btn-sm' %>
-      <% end %>
-      <span><%= post.likes.count %> likes</span>
-    </div>
-
-    <!-- Comments Section -->
-    <div class="comments" data-controller="comments">
-      <h3>Comments</h3>
-
-      <!-- Toggle Button -->
-      <button data-target="comments.toggleButton" data-action="click->comments#toggle">Show Comments</button>
-
-      <!-- Comment Form -->
-      <%= simple_form_for([post, post.comments.build], html: { data: { controller: "comments", action: "turbo:submit-end->comments#resetForm" } }) do |form| %>
-        <div class="form-group">
-          <%= form.input :content,
-                         as: :text,
-                         placeholder: "Add a comment...",
-                         label: false,
-                         input_html: { data: { target: "comments.content" }, class: "form-control" } %>
-        </div>
-        <div class="form-actions">
-          <%= form.button :submit, "Add Comment",
-                          class: "btn btn-success btn-sm" %>
-        </div>
-      <% end %>
-
-      <!-- Comments List -->
-<ul data-comments-target="list" class="comments-list">
-  <p class="comments-title">Comments</p>
-  <% post.comments.each do |comment| %>
-    <li class="comment-item">
-      <span class="comment-content"><%= comment.content %></span>
-      <% if comment.user.present? %>
-        <span class="comment-user">- <%= comment.user.username %></span>
-      <% end %>
-      <% if comment.user == current_user %>
-        <%= button_to 'Delete', post_comment_path(post, comment), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm delete-comment-btn' %>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
-
-
-<% if user_signed_in? %>
-  <%= link_to 'New Post', new_post_path, class: 'btn btn-primary mb-3' %>
-<% end %>
-
-<% @posts.each do |post| %>
-  <div class="post mb-4">
-    <p class="text-muted">Posted by <%= link_to post.user.username, user_path(post.user) %></p>
-    <% if post.image.attached? %>
-  <%= image_tag url_for(post.image), class: 'img-fluid mb-3' %>
-<% end %>
-
-
-    <p><%= post.content %></p>
-
-    <!-- Likes Section -->
-    <div class="likes">
-  <% if current_user && current_user.liked?(post) %>
-    <% like = post.likes.find_by(user: current_user) %>
-    <%= button_to 'Unlike', post_like_path(post, like), method: :delete, data: { turbo: true }, class: 'btn btn-secondary btn-sm' %>
-  <% else %>
-    <%= button_to 'Like', post_likes_path(post), method: :post, data: { turbo: true }, class: 'btn btn-primary btn-sm' %>
-  <% end %>
-  <span><%= post.likes.count %> likes</span>
-</div>
-
-
-    <!-- Comments Section -->
-<div class="comments" data-controller="comments">
-  <h3>Comments</h3>
-
-  <!-- Toggle Button -->
-  <button data-target="comments.toggleButton" data-action="click->comments#toggle">Show Comments</button>
-
-  <!-- Comment Form -->
-  <%= simple_form_for([post, post.comments.build], html: { data: { controller: "comments", action: "turbo:submit-end->comments#resetForm" } }) do |form| %>
-    <div class="form-group">
-      <%= form.input :content,
-                     as: :text,
-                     placeholder: "Add a comment...",
-                     label: false,
-                     input_html: { data: { target: "comments.content" }, class: "form-control" } %>
-    </div>
-    <div class="form-actions">
-      <%= form.button :submit, "Add Comment",
-                      class: "btn btn-success btn-sm" %>
-    </div>
-  <% end %>
-
-  <!-- Comments List -->
-  <ul data-comments-target="list">
-    <p>Comments</p>
-    <% post.comments.each do |comment| %>
-      <li>
-        <%= comment.content %>
-        <% if comment.user.present? %>
-          - <%= comment.user.username %>
-        <% end %>
-      </li>
+  <div class="likes">
+    <% if current_user && current_user.liked?(post) %>
+      <% like = post.likes.find_by(user: current_user) %>
+      <%= button_to 'Unlike', post_like_path(post, like), method: :delete, data: { turbo: true }, class: 'btn btn-secondary btn-sm' %>
+    <% else %>
+      <%= button_to 'Like', post_likes_path(post), method: :post, data: { turbo: true }, class: 'btn btn-primary btn-sm' %>
     <% end %>
-  </ul>
-</div>
+    <span><%= post.likes.count %> likes</span>
+  </div>
+
+  <div class="comments" data-controller="comments">
+    <h3>Comments</h3>
+
+    <button data-target="comments.toggleButton" data-action="click->comments#toggle">Show Comments</button>
+
+    <%= simple_form_for([post, post.comments.build], html: { data: { controller: "comments", action: "turbo:submit-end->comments#resetForm" } }) do |form| %>
+      <div class="form-group">
+        <%= form.input :content,
+                       as: :text,
+                       placeholder: "Add a comment...",
+                       label: false,
+                       input_html: { data: { target: "comments.content" }, class: "form-control" } %>
+      </div>
+      <div class="form-actions">
+        <%= form.button :submit, "Add Comment",
+                        class: "btn btn-success btn-sm" %>
+      </div>
+    <% end %>
+
+    <ul data-comments-target="list" class="comments-list">
+      <% post.comments.each do |comment| %>
+        <li class="comment-item">
+          <span class="comment-content"><%= comment.content %></span>
+          <% if comment.user.present? %>
+            <span class="comment-user">- <%= comment.user.username %></span>
+          <% end %>
+          <% if comment.user == current_user %>
+            <%= button_to 'Delete', post_comment_path(post, comment), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm delete-comment-btn' %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>
 </div>

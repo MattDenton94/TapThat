@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # ability to follow & unfollow a user
-  resources :users, only: [:show] do
+  resources :users, only: [:show, :edit] do
     member do
       post "follow"
       delete "unfollow"
