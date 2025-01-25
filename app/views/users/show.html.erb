@@ -19,9 +19,11 @@
             <div class="name-user">@<%= @user.username %></div>
           </div>
 
-          <!-- Follow/Unfollow Button-->
+          <!-- Follow/Unfollow or Edit Profile Button-->
           <div class="follow-button" id="follow-unfollow-container" data-controller="follow" data-user-id="<%= @user.id %>">
-            <% if current_user.following.include?(@user) %>
+            <% if current_user == @user %>
+              <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-primary px-5' %>
+            <% elsif current_user.following.include?(@user) %>
               <button class="btn btn-outline-dark px-4" data-action="click->follow#unfollow" data-follow-target="button">
                 Unfollow
               </button>
@@ -31,20 +33,6 @@
               </button>
             <% end %>
           </div>
-
-<!--      <div class="follow-button">
-        <div id="follow-unfollow-container" data-controller="follow" data-user-id="<%#= @user.id %>">
-          <%# if current_user.following.include?(@user) %>-->
-<!--            <button class="btn btn-outline-dark px-4 custom-bttn" data-action="click->follow#unfollow" data-follow-target="button">
-              Following
-            </button>
-          <%# else %>-->
-<!--            <button class="btn btn-primary px-4 custom-bttn" data-action="click->follow#follow" data-follow-target="button">
-              Follow
-            </button>
-          <%# end %>-->
-<!--        </div>
-      </div>-->
 
         </div>
 
@@ -73,107 +61,30 @@
     <div class="posts">
       <h2>Posts</h2>
       <div class="posts-grid">
-        <% @user.posts.each do |post| %>
-          <div class="post">
-            <%= image_tag post.media_url, alt: post.content if post.media_url.present? %>
-            <p><%= post.content %></p>
-          </div>
-          <div class="copy-to-clipboard" data-controller="clipboard" data-clipboard-url-value=<%= post_url(post) %>>
-            <button class="share-button btn btn-outline-dark px-4" data-action="clipboard#copy">Share</button>
+    <% if @user.posts.any? %>
+      <% @user.posts.each do |post| %>
+        <div class="post">
+          <%= image_tag post.media_url, alt: post.content if post.media_url.present? %>
+          <p><%= post.content %></p>
         </div>
-          <% end %>
+      <% end %>
+    <% else %>
+      <p>This user has no posts yet.</p>
+    <% end %>
+  </div>
+</div>
+
+        <div class="copy-to-clipboard" data-controller="clipboard" data-clipboard-url-value="<%= user_posts_path(@user) %>">
+          <button class="share-button btn btn-outline-dark px-4" data-action="clipboard#copy">Share</button>
+        </div>
     </div>
 
 
     <div class="log-out-button">
       <% if user_signed_in? && current_user == @user %>
-        <%#= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-primary' %>
         <%= link_to 'Log Out', destroy_user_session_path, data: {turbo_method: "delete"}, class: 'btn btn-primary' %>
       <% end %>
     </div>
 
   </div>
 </div>
-
-
-
-<!--EDIT PROFILE BUTTON
-  <div class="action">
-    <%#= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-primary' %>-->
-<!--  </div>-->
-
-
-<!-------------------------------------------------->
-
-<!--<div class="main-profile">
-<div class="profile">
-<div class="profile-header">
-
-  <h1><%#= @user.first_name %></h1>
-  <p>@<%#= @user.username %></p>
-
-  <div id="follow-unfollow-container" data-controller="follow" data-user-id="<%#= @user.id %>">
-    <%# if current_user.following.include?(@user) %>-->
-<!--      <button class="btn btn-outline-dark px-4" data-action="click->follow#unfollow" data-follow-target="button">
-        Unfollow
-      </button>
-    <%# else %>-->
-<!--      <button class="btn btn-primary px-5" data-action="click->follow#follow" data-follow-target="button">
-        Follow
-      </button>
-    <%# end %>-->
-<!--  </div>
-
-
-
-  <div class="profile-picture">
-    <%# if @user.profile_url.present? %>-->
-      <%#= image_tag @user.profile_url, alt: @user.username, class: 'profile-pic' %>
-    <%# else %>
-      <%#= image_tag 'default_profile_picture.png', alt: 'Default Profile Picture', class: 'profile-pic' %>
-    <%# end %>
-<!--  </div>
-</div>
-
-  <div class="bio">
-    <p><%#= @user.bio %></p>
-  </div>
-
-
-  <div class="stats more-stats">
-    <div>
-      <h3><%#= @user.posts.count %></h3>
-      <p>Posts</p>
-    </div>
-    <div>
-      <h3><%#= @user.followers.count %></h3>
-      <p>Followers</p>
-    </div>
-    <div>
-      <h3><%#= @user.following.count %></h3>
-      <p>Following</p>
-    </div>
-  </div>
-
-
-  <div class="action">
-    <%#= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-primary' %>-->
-<!--  </div>
-
-
-  <div class="posts">
-    <h2>Posts</h2>
-    <div class="posts-grid">
-      <%# @user.posts.each do |post| %>-->
-<!--        <div class="post">-->
-          <%#= image_tag post.media_url, alt: post.content if post.media_url.present? %>
-<!--          <p><%#= post.content %></p>
-        </div>
-            <div class="copy-to-clipboard" data-controller="clipboard" data-clipboard-url-value=<%#= post_url(post) %>>
-              <button data-action="clipboard#copy">Share</button>
-            </div>
-      <%# end %>-->
-<!--    </div>
-  </div>
-</div>
--->
