@@ -1,11 +1,11 @@
-<h1>New Comment</h1>
+<h1>Edit Comment</h1>
 
-<%= form_with(model: [ @post, @post.comments.build ], local: true, data: { controller: "comments" }) do |form| %>
+<%= form_with(model: [@post, @comment], local: true, data: { controller: "comments" }) do |form| %>
   <div class="field">
     <%= form.label :comment %>
     <%= form.text_area :content, data: { target: "comments.content" }, class: 'form-control' %>
   </div>
-  <%= form.submit 'Add Comment', class: 'btn btn-success' %>
+  <%= form.submit 'Update Comment', class: 'btn btn-primary' %>
 <% end %>
 
-<%= link_to 'Back', comments_path %>
+<%= link_to 'Back', comments_path, class: 'btn btn-secondary' %>

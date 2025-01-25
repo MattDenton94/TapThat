@@ -50,20 +50,21 @@
       <% end %>
 
       <!-- Comments List -->
-      <ul data-comments-target="list">
-        <p>Comments</p>
-        <% post.comments.each do |comment| %>
-          <li>
-            <%= comment.content %>
-            <% if comment.user.present? %>
-              - <%= comment.user.username %>
-            <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
+<ul data-comments-target="list" class="comments-list">
+  <p class="comments-title">Comments</p>
+  <% post.comments.each do |comment| %>
+    <li class="comment-item">
+      <span class="comment-content"><%= comment.content %></span>
+      <% if comment.user.present? %>
+        <span class="comment-user">- <%= comment.user.username %></span>
+      <% end %>
+      <% if comment.user == current_user %>
+        <%= button_to 'Delete', post_comment_path(post, comment), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm delete-comment-btn' %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
 
 <% if user_signed_in? %>
   <%= link_to 'New Post', new_post_path, class: 'btn btn-primary mb-3' %>
